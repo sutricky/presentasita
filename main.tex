@@ -1,0 +1,668 @@
+\documentclass[8pt]{beamer}
+\usepackage[english]{babel}
+
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{graphicx}
+\usepackage{multirow}
+\renewcommand{\CancelColor}{\color{red}} %change cancel color to red
+
+% vertical separator macro
+\newcommand{\vsep}{
+  \column{0.0\textwidth}
+    \begin{tikzpicture}
+      \draw[very thick,black!10] (0,0) -- (0,7.3);
+    \end{tikzpicture}
+}
+
+% More space between lines in align
+% \setlength{\mathindent}{0pt}
+
+% Beamer theme
+\usetheme{UniVienna}
+\usefonttheme[onlysmall]{structurebold}
+\mode<presentation>
+\setbeamercovered{transparent=10}
+
+% align spacing
+\setlength{\jot}{0pt}
+
+%\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+
+\title{Seminar Tugas Akhir}
+\subtitle{Pemodelan Termal Semi-empiris Satelit LAPAN-A3 \\ Menggunakan Metode Machine Learning}
+\author{Ricky Sutardi 13617051}
+\institute[Program Studi Teknik Dirgantara Institut Teknologi Bandung]{
+  Dosen Pembimbing : \\
+  Dr. Eng. Ridanto Eko Poetro ST,M.Sc. \\
+  Dr. Robertus Heru Triharjanto, M.Sc. \\
+  Luqman Fathurrohim ST, M.T.
+}
+\date{8 Agustus 2022}
+
+\usepackage[square,numbers]{natbib}
+\bibliographystyle{IEEEtranN}
+
+\begin{document}
+
+\renewcommand{\figurename}{Gambar}
+\renewcommand{\tablename}{Tabel}
+
+% Title
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Daftar Isi
+\begin{frame}{Garis Besar Presentasi}
+\tableofcontents
+\end{frame}
+
+% Bab 1
+\section{Bab 1 - Pendahuluan}
+\begin{frame}
+  \frametitle{Latar Belakang}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+            \begin{block}{\center Grafik suhu \textit{multispectral imager} LAPAN-A3 sepanjang tahun 2017}
+      \begin{figure}
+          \includegraphics[width=1.0\textwidth]{figure/multispectralimager.png}
+      \end{figure}
+            \end{block}
+    \column{0.5\textwidth}
+    \begin{itemize}
+        \item LAPAN-A3 adalah satelit hasil kerja sama antara Lembaga Penerbangan dan Antariksa Nasional (LAPAN) dengan Institut Pertanian Bogor (IPB) yang diluncurkan pada 2016 \cite{hasbi2013}
+      \item Sistem kendali termal satelit LAPAN-A3 tidak mampu menjaga suhu \textit{payload} utama \textit{multispectral imager} di atas 0 $^\circ$C sepanjang tahun \cite{ribah2019}
+      \item Operator LAPAN harus memberikan perintah maneuver khusus secara periodik untuk menaikkan suhu \textit{multispectral imager}
+      \item Dibutuhkan sebuah model termal sederhana yang dapat memprediksi suhu sisi-sisi satelit agar permasalahan tidak terulang pada desain satelit LAPAN selanjutnya
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Latar Belakang}
+    \begin{itemize}
+      \item Pemodelan termal satelit konvensional membutuhkan perhitungan numerik yang kompleks \cite{das} atau perangkat lunak komersial khusus \cite{boudjemai2015}
+      \item Metode \textit{machine learning} sudah umum digunakan dalam analisis termal satelit karena dapat mengurangi kompleksitas dan jumlah perhitungan dalam pemodelan termal satelit \cite{junior2017}\cite{escobar2016}\cite{xiong2020}
+      \item Akan dibuat sebuah model termal semi-empiris menggunakan metode regresi linear \textit{machine learning} yang dapat memprediksi perubahan suhu sisi-sisi satelit LAPAN-A3
+      \item Model termal LAPAN-A3 tersebut dilatih, diuji, dan dievaluasi berdasarkan data telemetri aktual satelit LAPAN-A3 pada periode observasi 19 dan 20 Mei 2018
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Rumusan Masalah}
+  \begin{enumerate}
+    \item Bagaimana pemodelan termal semi-empiris satelit LAPAN-A3 menggunakan metode \textit{machine learning} dapat dilakukan?
+    \item Bagaimana perbandingan perubahan suhu sisi-sisi satelit hasil prediksi model termal satelit dengan data telemetri satelit?
+    \item Bagaimana performa model termal satelit yang dihasilkan?
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Tujuan Penelitian}
+  \begin{enumerate}
+    \item Melakukan penjabaran langkah-langkah untuk membuat model termal satelit \textit{node} banyak secara semi-empiris menggunakan metode \textit{machine learning}
+    \item Membuat model termal satelit yang dapat memprediksi perubahan suhu sisi-sisi satelit LAPAN-A3
+    \item Membandingkan perubahan suhu \textit{node} satelit hasil prediksi model termal dengan data telemetri satelit
+    \item Menganalisis performa hasil prediksi dari model termal satelit yang telah dibuat
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Batasan Penelitian}
+  \begin{enumerate}
+    \item Pemodelan termal satelit LAPAN-A3 dilakukan untuk periode observasi 19 dan 20 Mei 2018
+    \item Selama periode observasi, satelit dianggap tidak mengalami perubahan massa dan karakteristik termal
+    \item Satelit LAPAN-A3 dianggap berbentuk balok dan dibagi menjadi 7
+	\textit{node} mewakili 6 sisi satelit dan plat tengah satelit dengan aturan
+		konversi sumbu menjadi nomor \textit{node} sebagai berikut : X+ = 1, X- =
+		2, Y+ = 3, Y- = 4, Z+ = 5, Z- = 6, serta plat tengah = 7
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Metodologi}
+  \begin{columns}[T]
+    \column{0.39\textwidth}
+    \begin{block}{\center Metodologi penelitian}
+      \begin{center}
+    \includegraphics[width=0.5\textwidth]{figure/graph_metodologi.png}
+      \end{center}
+    \end{block}
+    \column{0.02\textwidth}
+    \column{0.59\textwidth}
+    \begin{block}{\center Algoritma pembuatan dataset}
+      \begin{center}
+    \includegraphics[width=1.0\textwidth]{figure/graph_algoritma.png}
+      \end{center}
+    \end{block}
+    Kode sumber pemrograman karya tulis dapat diakses di https://github.com/sutricky/a3thermalmodel
+  \end{columns}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sistematika Penulisan}
+\begin{enumerate}
+\item Bab 1 Pendahuluan
+
+Bab ini membahas latar belakang, rumusan masalah, tujuan penelitian, batasan
+penelitian, metodologi karya tulis, dan sistematika penulisan.
+
+\item Bab 2 Tinjauan Pustaka
+
+Bab ini membahas dasar teori yang digunakan dalam rangka pengerjaan karya tulis ini.
+
+\item Bab 3 Pembuatan Model Termal Satelit LAPAN-A3
+
+Bab ini menjabarkan langkah-langkah untuk membuat model termal semi-empiris
+		satelit LAPAN-A3 dengan menggunakan metode \textit{machine learning}.
+
+\item Bab 4 Hasil dan Analisis
+
+Bab ini berisi hasil prediksi suhu sisi-sisi satelit LAPAN-A3 serta analisis performa model termal satelit LAPAN-A3 yang dihasilkan dari bab sebelumnya.
+
+\item Bab 5 Kesimpulan dan Saran
+
+Bab ini berisi kesimpulan dari penelitian yang telah dilakukan dan saran
+untuk penelitian selanjutnya.
+\end{enumerate}
+\end{frame}
+
+
+% Bab 2
+\section{Bab 2 - Tinjuan Pustaka}
+\begin{frame}
+  \frametitle{Satelit LAPAN-A3}
+  \begin{columns}[T]
+    \column{0.4\textwidth}
+      \begin{block}{\center Desain LAPAN-A3}
+      \begin{figure}
+          \includegraphics[width=0.9\textwidth]{figure/a3overview.jpg}
+      \end{figure}
+      \end{block}
+    \column{0.6\textwidth}
+      \begin{itemize}
+        \item Memiliki misi utama berupa observasi Bumi untuk ketahanan pangan Indonesia
+        \item Membawa 4 \textit{payload} : \textit{multispectral imager}, \textit{digital space camera}, \textit{automatic identification system}, dan \textit{experimental thermal imager} \cite{hartono2019}
+        \item Memiliki orbit lingkaran \textit{sun-synchronous} dengan ketinggian 515 km dan inklinasi $97.5^\circ$
+        \item Menggunakan 5 panel surya yang tersebar di 4 sisi satelit sebagai sumber energi
+        \item Ke-enam sisi satelit dilengkapi sensor untuk mendeteksi arah sinar Matahari
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Two-line Element}
+  \begin{columns}[c]
+    \column{0.3\textwidth}
+      \begin{itemize}
+        \item Format data untuk mendeskripsikan parameter orbit objek ruang angkasa
+        \item Dirilis ke publik secara berkala oleh \textit{United States Space Command} (USSPACECOM)
+        \item Digunakan untuk mensimulasikan orbit satelit sehingga vektor posisi dan kecepatan satelit pada suatu waktu dapat dihitung
+      \end{itemize}
+
+    \column{0.7\textwidth}
+          \begin{block}{\center Penjelasan baris dan kolom TLE}
+      \begin{figure}
+          \includegraphics[width=0.8\textwidth]{figure/tlemeaning.png}
+      \end{figure}
+          \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pemodelan Termal Satelit}
+  \begin{columns}[T]
+    \column{0.45\textwidth}
+    \begin{block}{\center Sumber perpindahan panas satelit}
+      \begin{itemize}
+        \item Internal : konduksi, konveksi, dan radiasi antar komponen satelit
+        \item Eksternal : radiasi dari Matahari, radiasi dari Bumi, albedo dari Bumi, dan radiasi ke ruang angkasa
+      \end{itemize}
+      \begin{figure}
+        \includegraphics[width=1.0\textwidth]{figure/external_source.png}
+        Sumber perpindahan panas eksternal satelit yang mengorbit Bumi \cite{abdelkhalek2019}
+      \end{figure}
+    \end{block}
+    \column{0.55\textwidth}
+    \begin{itemize}
+      \item Pemodelan termal satelit bertujuan untuk memodelkan karakteristik termal satelit
+      \item Dilakukan dengan menyelesaikan persamaan keseimbangan termal satelit lewat analisis perpindahan panas satelit
+      \item Model termal satelit semi-empiris menggunakan asumsi, pendekatan, dan generalisasi untuk menyederhanakan perhitungan teoretis sesuai hasil observasi pada satelit
+      \item Satelit dimodelkan lewat titik analisis diskrit (\textit{node}) yang diasumsikan memiliki suhu dan karakteristik termal yang sama
+      \item Persamaan keseimbangan termal satelit LAPAN-A3 dilinearisasi menjadi persamaan laju perubahan suhu \textit{node} satelit
+      \item Persamaan laju perubahan suhu \textit{node} satelit diselesaikan menggunakan metode regresi linear \textit{machine learning}
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pemodelan Termal Satelit}
+  \begin{columns}[T]
+    \column{0.49\textwidth}
+    \begin{block}{\normalsize Persamaan termal satelit LAPAN-A3}
+      \small
+  Persamaan laju perubahan suhu \textit{node i} pada model satelit LAPAN-A3 dengan $N$ node yang sudah memperhitungkan sumber-sumber perpindahan panas dan interaksi dengan \textit{node-node} lain $j$ \cite{martinez2022}:
+\begin{equation}
+\label{eq:lineq}
+\begin{split}
+	\frac{\Delta T_i}{\Delta t} = &\ \frac{c_S}{C_i I_0} I_{i}(t) F_{e,i}(t) \\
+	&+ \frac{c_a}{C_i} F_{i,E}(t) F_a(t) \\
+	&+ \frac{c_E}{C_i} F_{i,E}(t) T_{i}(t)^4 \\
+	&- \frac{\left( \mathop{\sum_{j=1}^{N}}_{j \neq i} \sigma R_{ij} + c_{env} \right) }{C_i} T_{i}(t)^4 \\
+	&+ \mathop{\sum_{j=1}^{N}}_{j \neq i} \frac{G_{ij}}{C_i} \left(T_j(t) - T_i(t)\right) \\
+	&+ \mathop{\sum_{j=1}^{N}}_{j \neq i} \frac{\sigma R_{ij}}{C_i}T_{j}(t)^4 \\
+	&+ \frac{\dot{Q}_{dis,i}}{C_i}
+\end{split}
+\end{equation}
+    \end{block}
+    \column{0.51\textwidth}
+      \begin{center}Keterangan\end{center}
+      \begin{description}
+          \tiny
+        \item[$\Delta T_{i}$] Perubahan suhu \textit{node i}
+        \item[$\Delta t_{i}$] Selang waktu
+        \item[$C_{i}$] Kapasitas termal \textit{node i}
+        \item[$c_S$] Koefisien suku panas akibat Matahari
+        \item[$I_{i}$] Arus sensor Matahari \textit{node i}
+        \item[$I_{0}$] Arus maksimum sensor Matahari satelit
+        \item[$F_{e,i}$] Faktor gerhana \textit{node i}
+        \item[$c_{a}$] Koefisien suku panas akibat albedo
+        \item[$F_{i,E}$] Nilai \textit{view factor} dari \textit{node i} ke Bumi
+        \item[$F_{a}$] Faktor albedo satelit 
+        \item[$c_{E}$] Koefisien suku panas akibat Bumi
+        \item[$T_{i}, T_{j}$] Suhu \textit{node}
+        \item[$\sigma$] Konstanta Stefan-Boltzmann 
+        \item[$R_{ij}$] Koefisien kopling radiasi antara \textit{node i} dan \textit{node j}
+        \item[$c_{env}$] Koefisien suku disipasi ke lingkungan ruang angkasa
+        \item[$G_{ij}$] Koefisien kopling konduksi antara \textit{node i} dan \textit{node j}
+        \item[$\dot{Q}_{dis,i}$] Laju masukan panas akibat disipasi elektrik \textit{node i}
+
+\end{description}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Persamaan Termal Satelit LAPAN-A3}
+  \begin{columns}[T]
+    \column{0.49\textwidth}
+    \begin{itemize}
+      \item Pemodelan termal konvensional mengaruskan perhitungan semua variabel pada ruas kanan Persamaan (\ref{eq:lineq})
+      \item Dengan regresi linear, variabel yang masih harus dicari hanya variabel yang berubah terhadap waktu (diberi tanda (t) pada Persamaan (\ref{eq:lineq}))
+    \end{itemize}
+    \begin{block}{\normalsize \textit{View factor node} satelit ke Bumi}
+      \begin{itemize}
+        \item Nilai \textit{view factor} merupakan proporsi radiasi dari suatu permukaan yang diterima oleh permukaan lain
+        \item Karena satelit dianggap berbentuk balok dan jauh lebih kecil dibandingkan Bumi, \textit{view factor node} satelit ke Bumi didekati dengan \textit{view factor} plat persegi panjang ke bola
+      \end{itemize}
+    \end{block}
+    \column{0.02\textwidth}
+    \column{0.49\textwidth}
+    \begin{block}{\normalsize Faktor gerhana \textit{node} satelit}
+      Bernilai 1 jika \textit{node} menerima sinar Matahari dan 0 jika tidak
+    \end{block}
+    \begin{block}{\normalsize Faktor albedo satelit}
+      \begin{equation}
+\label{eq:albedofactor}
+F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\phi_{es}} \right)^2 \right] F_e
+\end{equation}
+    \end{block}
+    Keterangan
+    \small
+      \begin{description}
+        \item[$F_a$] Faktor albedo satelit
+        \item[$\phi$] Posisi sudut satelit
+        \item[$\phi_{es}$] Posisi sudut satelit saat memasuki fase gerhana
+        \item[$F_e$] Faktor gerhana satelit; bernilai 0 jika satelit dalam fase gerhana \\ dan 1 jika tidak
+
+\end{description}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Machine Learning}
+  \begin{columns}[c]
+    \column{0.49\textwidth}
+    \begin{block}{\center Cara kerja metode \textit{machine learning}}
+      \begin{figure}
+        \includegraphics[width=0.8\textwidth]{figure/mldiagram.jpg}
+      \end{figure}
+      \begin{enumerate}
+        \item Dataset dibagi menjadi set latihan dan ujian
+        \item Dataset latihan dijadikan data masukan algoritma \textit{machin learning}
+        \item Algoritma \textit{machine learning} akan membuat hipotesis berupa model yang menjelaskan hubungan antar data masukan
+        \item Hipotesis diterapkan pada set ujian untuk mendapatkan keluaran hasil
+        \item Hasil keluaran model dievaluasi dan dijadikan umpan balik
+      \end{enumerate}
+    \end{block}
+    \column{0.02\textwidth}
+    \column{0.49\textwidth}
+    \begin{itemize}
+      \item Bidang yang mempelajari metode dan algoritma komputer yang dapat
+        menggunakan data untuk meningkatkan performa dalam mengerjakan
+        serangkaian tugas secara otomatis \cite{mitchell1997}
+      \item Algoritma \textit{machine learning} mampu mempelajari sendiri karakteristik persamalahan yang harus diselesaikan dari kumpulan data yang diberikan
+      \item Umum digunakan pada permasalahan yang melibatkan data dalam jumlah banyak
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Machine Learning}
+  \begin{columns}[T]
+    \column{0.49\textwidth}
+    \begin{block}{\center Aplikasi \textit{machine learning} dalam pemodelan termal satelit}
+      \begin{itemize}
+        \item Metode \textit{machine learning} digunakan untuk membuat model regresi linear persamaan termal satelit LAPAN-A3
+        \item Model \textit{machine learning} dilatih dengan data masukan parameter satelit dan data keluaran laju perubahan suhu \textit{node}
+        \item Algoritma \textit{machine learning} akan mencari koefisien suku-suku persamaan laju perubahan suhu \textit{node} yang dapat memetakan data masukan ke data keluaran
+        \item Model termal yang dihasilkan kemudian digunakan untuk memprediksi suhu \textit{node-node} satelit
+      \end{itemize}
+    \end{block}
+    \column{0.02\textwidth}
+    \column{0.49\textwidth}
+    \begin{block}{\center Evaluasi performa model \\ \textit{machine learning}}
+      \begin{enumerate}
+        \item Skor koefisien determinasi ($R^2$) \cite{gupta2021}
+          \begin{itemize}
+            \item Mengukur akurasi model dalam memprediksi tren data observasi
+            \item Bernilai maksimum 1
+            \item Semakin tinggi, semakin dekat tren hasil prediksi model dengan data observasi
+            \item Menunjukkan proporsi variasi nilai data observasi yang dapat diprediksi model
+          \end{itemize}
+        \item Nilai \textit{root mean-square error} (RMSE) \cite{zheng}
+          \begin{itemize}
+            \item Mengukur akurasi model dalam memprediksi nilai data observasi
+            \item Selalu bernilai positif
+            \item Semakin rendah, semakin dekat hasil prediksi model dengan nilai data observasi
+            \item Bergantung pada skala dan jumlah dataset model
+          \end{itemize}
+        \end{enumerate}
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Perangkat Lunak}
+  \begin{columns}[c]
+    \column{0.5\textwidth}
+  Pemrograman dilakukan dalam bahasa Python dan modul yang digunakan adalah sebagai berikut :
+  \begin{enumerate}
+    \item Pandas
+    \item Numpy
+    \item Matplotlib
+    \item Scikit-learn
+    \item Skyfield
+    \item Scipy
+  \end{enumerate}
+    \column{0.5\textwidth}
+         \includegraphics[width=0.3\textwidth]{figure/pandas.png}
+         \includegraphics[width=0.3\textwidth]{figure/numpy.png}
+         \includegraphics[width=0.3\textwidth]{figure/matplotlib.png}
+         \includegraphics[width=0.3\textwidth]{figure/scikit.png}
+         \includegraphics[width=0.3\textwidth]{figure/skyfield.png}
+         \includegraphics[width=0.2\textwidth]{figure/scipy.png}
+  \end{columns}
+\end{frame}
+
+
+% Bab 3
+\section{Bab 3 - Pembuatan Model Termal Satelit LAPAN-A3}
+\begin{frame}
+  \frametitle{Pengumpulan Data}
+  Data yang dikumpulkan berupa data telemetri aktual LAPAN-A3 dan data TLE. Data telemetri dikumpulkan dari data internal LAPAN dan data TLE dkumpulkan dari situs Celestrak.
+  \begin{block}{\center Contoh data telemetri satelit LAPAN-A3}
+      \begin{figure}
+          \includegraphics[width=0.8\textwidth]{figure/telea3.png}
+      \end{figure}
+    \end{block}
+    \begin{block}{\center Contoh data TLE satelit LAPAN-A3}
+      \begin{figure}
+          \includegraphics[width=0.5\textwidth]{figure/tlea3.png}
+      \end{figure}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pembuatan Dataset}
+  \begin{columns}[T]
+    \column{0.49\textwidth}
+    Pembuatan dataset terbagi menjadi 3 tahapan besar :
+    \begin{enumerate}
+      \item Persiapan dataset dasar
+      \item Perhitungan faktor termal satelit
+      \item Penyaringan dataset
+    \end{enumerate}
+    \begin{block}{\center 1. Persiapan dataset dasar}
+      Mengubah data mentah yang sudah dikumpulkan (data telemetri dan TLE) menjadi bentuk dan satuan yang dibutuhkan
+    \end{block}
+    \begin{block}{\center 2. Perhitungan faktor termal satelit}
+      Menghitung variabel-variabel yang belum diketahui pada Persamaan (\ref{eq:lineq})
+    \end{block}
+    \column{0.02\textwidth}
+    \column{0.49\textwidth}
+      \begin{block}{\center 3. Penyaringan dataset}
+      Menyaring dataset berdasarkan kriteria :
+\begin{enumerate}
+\item Selang waktu antar pengamatan maksimal 120 s 
+\item Skor standar suhu \textit{node} satelit memiliki rentang -3 sampai dengan 3
+\item Skor standar laju perubahan suhu \textit{node} satelit berkisar dari -3 sampai dengan 3 
+\end{enumerate}
+      \end{block}
+      \begin{block}{\center Skor standar \cite{massaron}}
+\begin{equation}
+\label{eq:zscore}
+\small
+	z = \frac{x - \mu}{\sigma}
+\end{equation}
+      \end{block}
+      \small
+Keterangan :
+
+    \begin{description}
+        \item[$z$] Skor standar data
+        \item[$x$] Nilai data
+        \item[$\mu$] Rata-rata dataset
+        \item[$\sigma$] Standar deviasi dataset
+    \end{description}
+
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pelatihan dan Pengujian Model}
+  \begin{columns}
+    \column{0.4\textwidth}
+      \begin{itemize}
+        \item Dataset dibagi menjadi set latihan dan ujian
+        \item Set latihan digunakan untuk melatih model menyelesaikan Persamaan (\ref{eq:lineq}) 
+        \item Set ujian digunakan untuk menghasilkan prediksi suhu \textit{node} satelit
+        \item Persentase jumlah set latihan dibanding set ujian adalah 70\%:30\%
+      \end{itemize}
+    \column{0.6\textwidth}
+          \begin{block}{\center Detail jumlah dataset model \textit{machine learning}}
+      \begin{table}[H]
+        \begin{center}
+          \label{table:dataset}
+          \begin{tabular}{|c|cc|}
+            \hline
+            \multirow{2}{*}{Tanggal} & \multicolumn{2}{c|}{Dataset}                 \\ \cline{2-3} 
+             & \multicolumn{1}{c|}{Set latihan} & Set ujian \\ \hline
+            19 Mei 2018              & \multicolumn{1}{c|}{201}         & 87        \\ \hline
+            20 Mei 2018              & \multicolumn{1}{c|}{180}         & 78        \\ \hline
+          \end{tabular}
+        \end{center}
+      \end{table}
+          \end{block}
+  \end{columns}
+\end{frame}
+
+
+% Bab 4
+\section{Bab 4 - Hasil dan Analisis}
+\begin{frame}
+  \frametitle{Hasil Pemodelan Termal Satelit LAPAN-A3 - 19 Mei 2018}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node12_temp_2018-05-19.png}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node34_temp_2018-05-19.png}
+      \end{figure}
+    \column{0.5\textwidth}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node56_temp_2018-05-19.png}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node7_temp_2018-05-19.png}
+      \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hasil Pemodelan Termal Satelit LAPAN-A3 - 20 Mei 2018}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node12_temp_2018-05-20.png}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node34_temp_2018-05-20.png}
+      \end{figure}
+    \column{0.5\textwidth}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node56_temp_2018-05-20.png}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.7\textwidth]{figure/paper_node7_temp_2018-05-20.png}
+      \end{figure}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Hasil Pemodelan Termal Satelit LAPAN-A3}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \center 19 Mei 2018
+      \begin{figure}
+          \includegraphics[width=0.6\textwidth]{figure/r2_2018-05-19.png}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.6\textwidth]{figure/rmse_2018-05-19.png}
+      \end{figure}
+    \column{0.5\textwidth}
+    \center 20 Mei 2018
+      \begin{figure}
+          \includegraphics[width=0.6\textwidth]{figure/r2_2018-05-20.png}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.6\textwidth]{figure/rmse_2018-05-20.png}
+      \end{figure}
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{Hasil Pemodelan Termal Satelit LAPAN-A3}
+  \begin{itemize}
+    \item Secara kualitatif, model termal dapat menangkap tren dan nilai perubahan suhu \textit{node-node} satelit selama periode observasi
+    \item Secara kuantitatif, 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} memiliki nilai RMSE lebih kecil dari 1 $^\circ$C pada kedua periode observasi
+    \item Artinya, model termal dapat memprediksi lebih dari 95\% tren perubahan suhu pada 5 \textit{node} dan memiliki rata-rata deviasi standar kesalahan prediksi suhu di bawah 1 $^\circ$C untuk 6 \textit{node}
+    \item Skor $R^2$ paling rendah dimiliki \textit{node} 3 dan disusul oleh \textit{node} 7 untuk kedua periode observasi
+    \item Nilai RMSE maksimum dimiliki \textit{node} 4 dengan nilai 1 $^\circ$C untuk kedua periode observasi
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analisis Penyebab Ketidakakuratan Model Termal}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \begin{figure}
+          \includegraphics[width=0.5\textwidth]{figure/node3.png}
+            \caption{Ilustrasi letak \textit{node} 3}
+      \end{figure}
+      \begin{figure}
+          \includegraphics[width=0.5\textwidth]{figure/node7.png}
+            \caption{Ilustrasi letak \textit{node} 7}
+      \end{figure}
+    \column{0.5\textwidth}
+    \begin{block}{\center \normalsize Kapasitas termal rata-rata \textit{node}}
+      \begin{itemize}
+      \item \textit{Node} dari komponen dengan material berbeda akan memiliki rentang nilai kapasitas termal \textit{node} yang besar
+      \item Rentang kapasitas termal besar dapat menyebabkan perbedaan perubahan suhu antar komponen-komponen
+      \item Terdapat \textit{rocket adapter} dan \textit{separation ring} pada \textit{node} 3 sedangkan \textit{node} 7 mencakup banyak komponen elektronik satelit
+      \end{itemize}
+    \end{block}
+    \begin{block}{\center \normalsize Asumsi bentuk satelit}
+      \begin{itemize}
+        \item Satelit diasumsikan berbentuk balok sehingga \textit{node-node} dianggap bentuk plat persegi panjang
+        \item Ada komponen satelit yang tidak berbentuk persegi panjang seperti antena dan kamera
+      \end{itemize}
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analisis Penyebab Ketidakakuratan Model Termal}
+    \begin{block}{\center Pengaruh perubahan suhu \textit{node} lain}
+      \begin{itemize}
+        \item Persamaan laju perubahan suhu \textit{node} pada Persamaan (\ref{eq:lineq}) menunjukkan bahwa perubahan suatu \textit{node} juga dipengaruhi perubahan suhu \textit{node-node} lain
+        \item Diperlukan analisis lebih lanjut untuk menentukan variabel dominan yang mungkin menyumbang \textit{error} besar pada Persamaan (\ref{eq:lineq})
+        \item Jika ditemukan bahwa perubahan suhu \textit{node} 4 didominasi oleh perubahan suhu \textit{node} 3 dan 7, penjelasan sebelumnya dapat dipakai
+        \item Sebaliknya, jika berbeda, hasil analisis dapat digunakan untuk melihat suku mana yang harus dihitung lebih akurat
+      \end{itemize}
+    \end{block}
+\end{frame}
+
+% Bab 5
+\section{Bab 5 - Kesimpulan dan Saran}
+\begin{frame}
+  \frametitle{Kesimpulan}
+  \begin{itemize}
+    \item Langkah-langkah pemodelan termal semi-empiris satelit menggunakan metode \textit{machine learning} sudah didapatkan
+    \item Algoritma pemodelan termal yang dapat memprediksi suhu sisi-sisi satelit LAPAN-A3 sudah berhasil diimplementasikan
+    \item Secara umum, model termal LAPAN-A3 dapat memprediksi tren dan nilai perubahan suhu sisi-sisi satelit
+    \item Untuk kedua periode observasi, prediksi 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} satelit menghasilkan nilai RMSE lebih kecil dari 1 $^\circ$C.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Saran}
+  \begin{enumerate}
+    \item Menambah jumlah \textit{node} yang dimodelkan sehingga karakteristik termal satelit dapat termodelkan lebih menyeluruh
+    \item Mengubah asumsi yang digunakan pada \textit{node} satelit untuk memodelkan perilaku \textit{node} satelit lebih akurat
+    \item Melakukan analisis lebih lanjut untuk menghitung kontribusi tiap suku dalam persamaan termal satelit
+    \item Memperpanjang durasi periode observasi sehingga masukan data yang dapat digunakan juga bertambah
+    \item Menggunakan data dari periode observasi saat satelit melakukan maneuver agar model termal dapat mengakomodasi efek perubahan sikap satelit lebih baik
+  \end{enumerate}
+\end{frame}
+
+
+\setbeamercovered{transparent}
+\begin{frame}
+  \frametitle{Daftar Pustaka}
+  \tiny
+  \bibliography{IEEEabrv,ref}
+\end{frame}
+
+\setbeamercovered{transparent}
+\begin{frame}
+  \frametitle{Appendix A - Grafik Sikap Satelit LAPAN-A3 vs Waktu}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \center 19 Mei 2018
+      \begin{figure}
+          \includegraphics[width=0.8\textwidth]{figure/attitude_2018-05-19.png}
+      \end{figure}
+    \column{0.5\textwidth}
+    \center 20 Mei 2018
+      \begin{figure}
+          \includegraphics[width=0.8\textwidth]{figure/attitude_2018-05-20.png}
+      \end{figure}
+  \end{columns}
+\end{frame}
+
+
+\end{document}
