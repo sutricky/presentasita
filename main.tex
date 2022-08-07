@@ -90,7 +90,7 @@
       \item Pemodelan termal satelit konvensional membutuhkan perhitungan numerik yang kompleks \cite{das} atau perangkat lunak komersial khusus \cite{boudjemai2015}
       \item Metode \textit{machine learning} sudah umum digunakan dalam analisis termal satelit karena dapat mengurangi kompleksitas dan jumlah perhitungan dalam pemodelan termal satelit \cite{junior2017}\cite{escobar2016}\cite{xiong2020}
       \item Akan dibuat sebuah model termal semi-empiris menggunakan metode regresi linear \textit{machine learning} yang dapat memprediksi perubahan suhu sisi-sisi satelit LAPAN-A3
-      \item Model termal LAPAN-A3 tersebut dilatih, diuji, dan dievaluasi berdasarkan data telemetri aktual satelit LAPAN-A3 pada periode observasi 19 dan 20 Mei 2018
+      \item Model termal tersebut akan dilatih, diuji, dan dievaluasi berdasarkan data telemetri aktual satelit LAPAN-A3 pada periode observasi 19 dan 20 Mei 2018
     \end{itemize}
 \end{frame}
 
@@ -194,8 +194,8 @@ untuk penelitian selanjutnya.
       \end{block}
     \column{0.6\textwidth}
       \begin{itemize}
-        \item Memiliki sistem kendali termal pasif berupa struktur alumunium yang diberi anode hitam
-        \item Memiliki misi utama berupa observasi Bumi untuk ketahanan pangan Indonesia
+        \item Satelit ke-3 dengan sistem kendali termal pasif (tidak menggunakan daya) yang dikembangkan LAPAN setelah LAPAN-A1 dan LAPAN-A2
+        \item Memiliki misi utama berupa observasi Bumi untuk mendukung ketahanan pangan Indonesia
         \item Membawa 4 \textit{payload} : \textit{multispectral imager}, \textit{digital space camera}, \textit{automatic identification system}, dan \textit{experimental thermal imager} \cite{hartono2019}
         \item Memiliki orbit lingkaran \textit{sun-synchronous} dengan ketinggian 515 km dan inklinasi $97.5^\circ$
         \item Menggunakan 5 panel surya yang tersebar di 4 sisi satelit sebagai sumber energi
@@ -239,11 +239,10 @@ untuk penelitian selanjutnya.
     \end{block}
     \column{0.55\textwidth}
     \begin{itemize}
-      \item Pemodelan termal satelit bertujuan untuk memodelkan karakteristik termal satelit
-      \item Dilakukan dengan menyelesaikan persamaan keseimbangan termal satelit lewat analisis perpindahan panas satelit
-      \item Model termal satelit semi-empiris menggunakan asumsi, pendekatan, dan generalisasi untuk menyederhanakan perhitungan teoretis sesuai hasil observasi pada satelit
-      \item Satelit dimodelkan lewat titik analisis diskrit (\textit{node}) yang diasumsikan memiliki suhu dan karakteristik termal yang sama
-      \item Persamaan keseimbangan termal satelit LAPAN-A3 dilinearisasi menjadi persamaan laju perubahan suhu \textit{node} satelit
+      \item Pemodelan termal satelit bertujuan untuk memodelkan karakteristik termal satelit lewat analisis perpindahan panas satelit
+      \item Metode semi-empiris berarti menggunakan asumsi, pendekatan, dan generalisasi untuk menyederhanakan perhitungan teoretis sesuai hasil observasi pada satelit
+      \item Satelit dimodelkan menjadi titik-titik analisis diskrit (\textit{node}) yang diasumsikan memiliki suhu dan karakteristik termal yang sama
+      \item Persamaan keseimbangan termal satelit dapat dilinearisasi menjadi persamaan laju perubahan suhu \textit{node} satelit
       \item Persamaan laju perubahan suhu \textit{node} satelit diselesaikan menggunakan metode regresi linear \textit{machine learning}
     \end{itemize}
   \end{columns}
@@ -301,7 +300,7 @@ untuk penelitian selanjutnya.
     \column{0.39\textwidth}
     \begin{itemize}
       \item Pemodelan termal konvensional mengaruskan perhitungan semua variabel pada ruas kanan persamaan laju perubahan suhu \textit{node} (Persamaan (\ref{eq:lineq}))
-      \item Dengan metode regresi linear \textit{machine learning}, variabel yang masih harus dicari hanya variabel yang berubah terhadap waktu (diberi tanda (t) pada Persamaan (\ref{eq:lineq})) atau hasil perkaliannya
+      \item Dengan metode regresi linear \textit{machine learning}, variabel yang masih harus dicari hanya variabel-variabel yang berubah terhadap waktu (ditandai (t) pada Persamaan (\ref{eq:lineq})) atau hasil perkaliannya
     \end{itemize}
     \column{0.01\textwidth}
     \column{0.59\textwidth}
@@ -327,10 +326,10 @@ Variabel & Deskripsi \\ \hline
   \frametitle{Pemodelan Termal Satelit}
   \begin{columns}[T]
     \column{0.49\textwidth}
-    \begin{block}{\normalsize Faktor gerhana \textit{node} satelit $F_{e,i}$}
+    \begin{block}{\center \normalsize Faktor gerhana \textit{node} satelit $F_{e,i}$}
       Bernilai 1 jika \textit{node} menerima sinar Matahari dan 0 jika \textit{node} tidak menerima sinar Matahari
     \end{block}
-    \begin{block}{\normalsize Faktor albedo satelit $F_a$}
+    \begin{block}{\center \normalsize Faktor albedo satelit $F_a$}
       \begin{equation}
 \label{eq:albedofactor}
 F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\phi_{es}} \right)^2 \right] F_e
@@ -347,7 +346,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 \end{description}
     \column{0.02\textwidth}
     \column{0.49\textwidth}
-    \begin{block}{\normalsize \textit{View factor node} satelit ke Bumi $F_{i,E}$}
+    \begin{block}{\center \normalsize \textit{View factor node} satelit ke Bumi $F_{i,E}$}
       \begin{itemize}
         \item Nilai \textit{view factor} merupakan proporsi radiasi dari suatu permukaan yang diterima oleh permukaan lain
         \item Satelit diasumsikan berbentuk balok dan jauh lebih kecil dibandingkan Bumi
@@ -733,7 +732,41 @@ Keterangan \cite{massaron}:
 
 \setbeamercovered{transparent}
 \begin{frame}
-  \frametitle{Appendix A - Grafik Sikap Satelit LAPAN-A3 vs Waktu}
+  \frametitle{Appendix A - Perhitungan View Factor Plat Persegi Panjang ke Bola}
+  Nilai \textit{view factor} dari permukaan plat persegi panjang 1 ke permukaan
+  bola 2 $F_{1,2}$ dapat dihitung berdasarkan persamaan berikut \cite{martinez2022a}:
+\begin{equation}
+	F_{1,2} = 
+\begin{cases} 
+	\frac{\cos{\gamma}}{h^2} & ,\;|\gamma| \leq \cos^{-1}\left(\frac{1}{h}\right) \\
+	\frac{1}{\pi h^2} \left( \cos{\gamma}\cos^{-1}y - x\sin{\gamma}\sqrt{1-y^2} \right) + \frac{1}{\pi}\tan^{-1}\left( \frac{\sin{\gamma}\sqrt{1-y^2}}{x} \right) & ,\;|\gamma| > \cos^{-1}\left(\frac{1}{h}\right) \\
+\end{cases}
+\label{eq:vf}
+\end{equation}
+
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \begin{figure}
+      \includegraphics[width=0.8\textwidth]{figure/platball.png}
+    \end{figure}
+    \column{0.5\textwidth}
+    \small
+    \center Keterangan :
+    \begin{description}
+      \item{$r$} Jari-jari bola
+      \item{$\hat{n}$} Vektor normal permukaan plat
+      \item{$H$} Garis jarak antara permukaan plat dan bola
+      \item{$\gamma$} Sudut antara $\hat{n}$ dan $H$ 
+      \item{$h$} $\frac{H}{r}$
+      \item{$x$} $\sqrt{h^2 - 1}$
+      \item{$y$} $-x \cot{\gamma}$
+    \end{description}
+  \end{columns}
+\end{frame}
+
+\setbeamercovered{transparent}
+\begin{frame}
+  \frametitle{Appendix B - Grafik Sikap Satelit LAPAN-A3 vs Waktu}
   \begin{columns}[T]
     \column{0.5\textwidth}
     \center 19 Mei 2018
