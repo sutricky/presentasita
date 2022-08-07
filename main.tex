@@ -711,13 +711,13 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 
 \begin{frame}
   \frametitle{Saran}
-  \begin{enumerate}
-    \item Menambah jumlah \textit{node} yang dimodelkan sehingga karakteristik termal satelit dapat termodelkan lebih menyeluruh
-    \item Mengubah asumsi yang digunakan pada \textit{node} satelit untuk memodelkan perilaku \textit{node} satelit lebih akurat
-    \item Melakukan analisis lebih lanjut untuk menghitung kontribusi tiap suku dalam persamaan termal satelit
-    \item Memperpanjang durasi periode observasi sehingga masukan data yang dapat digunakan juga bertambah
-    \item Menggunakan data dari periode observasi saat satelit melakukan maneuver agar model termal dapat mengakomodasi efek perubahan sikap satelit lebih baik
-  \end{enumerate}
+\begin{enumerate}
+\item Menambah jumlah \textit{node} yang digunakan dalam pemodelan sehingga karakteristik termal satelit dapat termodelkan lebih menyeluruh
+\item Mengubah asumsi yang digunakan pada \textit{node} satelit untuk memodelkan karakteristik \textit{node} satelit lebih akurat
+\item Melakukan analisis lebih lanjut untuk menghitung kontribusi tiap variabel dalam persamaan termal satelit
+\item Memperpanjang durasi periode observasi sehingga data masukan yang dapat digunakan juga bertambah
+\item Menggunakan data dari periode observasi saat satelit melakukan maneuver agar model termal dapat mengakomodasi efek perubahan sikap satelit lebih baik
+\end{enumerate}
 \end{frame}
 
 
@@ -776,6 +776,50 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
       \begin{figure}
           \includegraphics[width=0.8\textwidth]{figure/attitude_2018-05-20.png}
       \end{figure}
+  \end{columns}
+\end{frame}
+
+\setbeamercovered{transparent}
+\begin{frame}
+  \frametitle{Appendix C - Orbit \textit{Sun-synchronous}}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \begin{block}{Ilustrasi orbit \textit{sun-synchronous}}
+      \begin{figure}
+          \includegraphics[width=0.8\textwidth]{figure/sso.png}
+      \end{figure}
+      Orbit \textit{sun-synchronous} ditunjukkan orbit dengan warna hijau
+    \end{block}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item Orbit \textit{sun-synchronous} memiliki sudut antara vektor normal orbit satelit dengan vektor arah Matahari-Bumi yang konstan sepanjang tahun
+      \item Satelit akan cenderung mendapatkan pencahayaan yang konsisten sepanjang tahun
+      \item Satelit juga akan melintasi khatulistiwa Bumi pada waktu lokal yang relatif sama setiap hari (pukul 09.30 untuk LAPAN-A3 di \textit{ground station} LAPAN, Bogor)
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\setbeamercovered{transparent}
+\begin{frame}
+  \frametitle{Appendix D - Regresi Linear}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item Pendekatan untuk memodelkan hubungan antara variabel dependen dan variabel independen secara linear
+      \item Model regresi linear akan menghitung matriks $w$ yang memetakan matriks $X$ ke $Y$ dan meminimalkan matriks $\varepsilon$ 
+    \end{itemize}
+    \column{0.5\textwidth}
+    \begin{equation}
+      \label{eq:reglinear}
+      Y = Xw + \varepsilon
+    \end{equation}
+    Keterangan
+    \begin{description}
+      \item{$Y$} Matriks variabel dependen
+      \item{$X$} Matriks variabel independen
+      \item{$w$} Matriks koefisien yang tidak diketahui
+      \item{$\varepsilon$} Matriks kesalahan atau gangguan
+    \end{description}
   \end{columns}
 \end{frame}
 
