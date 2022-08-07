@@ -341,7 +341,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
         \item[$F_a$] Faktor albedo satelit
         \item[$\phi$] Posisi sudut satelit
         \item[$\phi_{es}$] Posisi sudut satelit saat memasuki fase gerhana
-        \item[$F_e$] Faktor gerhana satelit; bernilai 0 jika satelit dalam fase gerhana \\ dan 1 jika tidak
+        \item[$F_e$] Faktor gerhana satelit; bernilai 0 jika satelit dalam fase gerhana dan 1 jika tidak dalam fase gerhana
 
 \end{description}
     \column{0.02\textwidth}
@@ -350,7 +350,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
       \begin{itemize}
         \item Nilai \textit{view factor} merupakan proporsi radiasi dari suatu permukaan yang diterima oleh permukaan lain
         \item Satelit diasumsikan berbentuk balok dan jauh lebih kecil dibandingkan Bumi
-        \item Nilai \textit{view factor node} satelit ke Bumi didekati dengan \textit{view factor} plat persegi panjang ke bola
+        \item Nilai \textit{view factor node} satelit ke Bumi didekati dengan \textit{view factor} plat persegi panjang ke bola (Appendix A)
       \end{itemize}
     \end{block}
   \end{columns}
@@ -367,10 +367,10 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
       \end{figure}
       \begin{enumerate}
         \item Dataset masukan dibagi menjadi set latihan dan ujian
-        \item Dataset latihan dijadikan data masukan algoritma \textit{machin learning}
+        \item Set latihan dijadikan data masukan algoritma \textit{machine learning}
         \item Algoritma \textit{machine learning} akan membuat hipotesis berupa model yang menjelaskan hubungan antar data masukan
         \item Hipotesis diterapkan pada set ujian
-        \item Hasil keluaran model dievaluasi dan dijadikan umpan balik
+        \item Performa model dievaluasi dan dijadikan umpan balik
       \end{enumerate}
     \end{block}
     \column{0.02\textwidth}
@@ -475,8 +475,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
         \item Suhu \textit{node} satelit dalam satuan K
         \item Arus sensor Matahari dalam satuan A
         \item Sudut sikap satelit dalam satuan rad
-        \item Data waktu pembacaan sensor-sensor satelit dipisah menjadi
-format tahun, bulan, tanggal, jam, menit, dan detik
+        \item Data waktu satelit dipisah menjadi format tahun, bulan, tanggal, jam, menit, dan detik
       \end{itemize}
     \end{block}
     \column{0.02\textwidth}
@@ -498,7 +497,6 @@ format tahun, bulan, tanggal, jam, menit, dan detik
     \column{0.49\textwidth}
       \begin{block}{\center 3. Penyaringan dataset}
         Penyaringan dilakukan untuk menghilangkan kesalahan dan \textit{outlier} bacaan sensor karena dapat mengurangi akurasi model termal.
-
       Kriteria penyaringan dataset :
 \begin{enumerate}
 \item Selang waktu antar pengamatan maksimal 120 s 
@@ -648,7 +646,7 @@ Keterangan \cite{massaron}:
 
 \begin{frame}
   \frametitle{Analisis Penyebab Ketidakakuratan Model Termal}
-  \begin{columns}[c]
+  \begin{columns}[T]
     \column{0.5\textwidth}
       \begin{figure}
           \includegraphics[width=0.5\textwidth]{figure/node3.png}
@@ -662,8 +660,8 @@ Keterangan \cite{massaron}:
     \begin{block}{\center \normalsize Kapasitas termal rata-rata \textit{node}}
       \begin{itemize}
       \item Satelit LAPAN-A3 dimodelkan menjadi 7 \textit{node} diskrit
-      \item \textit{Node} dari komponen dengan material berbeda akan memiliki rentang nilai kapasitas termal \textit{node} yang besar
-      \item Rentang kapasitas termal besar dapat menyebabkan perbedaan perubahan suhu antar komponen
+      \item \textit{Node} yang terdiri dari komponen dengan material berbeda dapat memiliki rentang nilai kapasitas termal \textit{node} yang besar
+      \item Rentang kapasitas termal besar dapat menyebabkan perbedaan perubahan suhu antara komponen pada \textit{node} dengan sensor suhu
       \item Terdapat \textit{rocket adapter} dan \textit{separation ring} pada \textit{node} 3 sedangkan \textit{node} 7 mencakup banyak komponen elektronik satelit
       \item Jumlah \textit{node} dapat ditambah sehingga karakteristik termal satelit dapat diwakili lebih menyeluruh
       \end{itemize}
