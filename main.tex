@@ -638,11 +638,11 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 \begin{frame}
   \frametitle{Hasil Pemodelan Termal Satelit LAPAN-A3}
   \begin{itemize}
-    \item Secara kualitatif, model termal dapat menangkap tren dan nilai perubahan suhu \textit{node-node} satelit selama periode observasi
-    \item Secara kuantitatif, 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} memiliki nilai RMSE lebih kecil dari 1 $^\circ$C pada kedua periode observasi
+    \item Secara kualitatif, model termal dapat menangkap tren dan nilai perubahan suhu \textit{node-node} satelit
+    \item Secara kuantitatif, 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} memiliki nilai RMSE lebih kecil dari 1 $^\circ$C
     \item Artinya, model termal dapat memprediksi lebih dari 95\% tren perubahan suhu pada 5 \textit{node} dan memiliki rata-rata deviasi standar kesalahan prediksi suhu di bawah 1 $^\circ$C untuk 6 \textit{node}
-    \item Skor $R^2$ paling rendah dimiliki \textit{node} 3 dan disusul oleh \textit{node} 7 untuk kedua periode observasi
-    \item Nilai RMSE maksimum dimiliki \textit{node} 4 dengan nilai 1 $^\circ$C untuk kedua periode observasi
+    \item Skor $R^2$ paling rendah dimiliki \textit{node} 3 dan disusul oleh \textit{node} 7
+    \item Nilai RMSE maksimum dimiliki \textit{node} 4 dengan nilai 1 $^\circ$C
   \end{itemize}
 \end{frame}
 
@@ -665,7 +665,6 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
       \item \textit{Node} yang terdiri dari komponen dengan material berbeda dapat memiliki rentang nilai kapasitas termal \textit{node} yang besar
       \item Rentang kapasitas termal besar dapat menyebabkan perbedaan perubahan suhu antara komponen pada \textit{node} dengan sensor suhu
       \item Terdapat \textit{rocket adapter} dan \textit{separation ring} pada \textit{node} 3 sedangkan \textit{node} 7 mencakup banyak komponen elektronik satelit
-      \item Jumlah \textit{node} dapat ditambah sehingga karakteristik termal satelit dapat diwakili lebih menyeluruh
       \end{itemize}
     \end{block}
   \end{columns}
@@ -677,19 +676,18 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
     \column{0.49\textwidth}
     \begin{block}{\center Pengaruh perubahan suhu \textit{node} lain}
       \begin{itemize}
-        \item Persamaan laju perubahan suhu \textit{node} pada Persamaan (\ref{eq:lineq}) menunjukkan bahwa perubahan suatu \textit{node} juga dipengaruhi perubahan suhu \textit{node-node} lain
-        \item Diperlukan analisis lebih lanjut untuk menentukan variabel dominan yang mungkin menghasilkan \textit{error} besar pada Persamaan (\ref{eq:lineq})
+        \item Perubahan suhu suatu \textit{node} dipengaruhi oleh perubahan suhu \textit{node-node} lain karena adanya konduksi dan radiasi antar \textit{node}
+        \item Diperlukan analisis lebih lanjut untuk menentukan suku pada persamaan termal satelit yang mungkin menghasilkan \textit{error} besar pada persamaan termal satelit
         \item Jika ditemukan bahwa perubahan suhu \textit{node} 4 didominasi oleh perubahan suhu \textit{node} 3 dan 7, penjelasan mengenai kapasitas termal rata-rata dapat dipakai
-        \item Sebaliknya, jika berbeda, hasil analisis dapat digunakan untuk melihat suku mana yang harus dihitung lebih akurat
+        \item Sebaliknya, jika berbeda, hasil analisis dapat digunakan untuk melihat suku mana yang harus dihitung lebih akurat untuk memperkecil kesalahan prediksi model
       \end{itemize}
     \end{block}
     \column{0.02\textwidth}
     \column{0.49\textwidth}
     \begin{block}{\center Asumsi bentuk satelit}
       \begin{itemize}
-        \item Satelit diasumsikan berbentuk balok sehingga \textit{node-node} dianggap berbentuk plat persegi panjang
+        \item Satelit diasumsikan berbentuk balok sehingga \textit{node-node} dianggap berbentuk plat persegi panjang dalam perhitungan \textit{view factor}
         \item Ada komponen satelit yang tidak berbentuk persegi panjang seperti antena dan kamera
-        \item Nilai \textit{view factor node} dapat dihitung terpisah menggunakan metode numerik lain
       \end{itemize}
     \end{block}
   \end{columns}
