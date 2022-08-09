@@ -244,7 +244,7 @@ untuk penelitian selanjutnya.
       \item Metode semi-empiris berarti menggunakan asumsi, pendekatan, dan generalisasi untuk menyederhanakan perhitungan teoretis sesuai hasil observasi pada satelit
       \item Satelit dimodelkan menjadi titik-titik analisis diskrit (\textit{node}) yang diasumsikan memiliki suhu dan karakteristik termal yang sama
       \item Persamaan keseimbangan termal satelit dapat dilinearisasi menjadi persamaan laju perubahan suhu \textit{node} satelit
-      \item Persamaan laju perubahan suhu \textit{node} satelit diselesaikan menggunakan metode regresi linear \textit{machine learning}
+      \item Persamaan laju perubahan suhu \textit{node} satelit diselesaikan menggunakan metode regresi linear
     \end{itemize}
   \end{columns}
 \end{frame}
@@ -301,7 +301,7 @@ untuk penelitian selanjutnya.
     \column{0.39\textwidth}
     \begin{itemize}
       \item Pemodelan termal konvensional mengharuskan perhitungan semua variabel pada ruas kanan persamaan laju perubahan suhu \textit{node} satelit
-      \item Dengan metode regresi linear \textit{machine learning}, variabel yang masih harus dicari hanya variabel-variabel yang berubah terhadap waktu atau hasil perkaliannya
+      \item Dengan metode regresi linear, variabel yang masih harus dicari hanya variabel-variabel yang berubah terhadap waktu atau hasil perkaliannya
       \item Nilai suhu \textit{node-node} satelit didapatkan dari data telemetri
       \item Faktor panas akibat Matahari, albedo, dan Bumi membutuhkan perhitungan faktor gerhana \textit{node} satelit ($F_{e,i}$), \textit{view factor node} satelit ke Bumi ($F_{i,E}$), serta faktor albedo satelit ($F_a$)
     \end{itemize}
@@ -394,10 +394,10 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
     \column{0.49\textwidth}
     \begin{block}{\center Aplikasi \textit{machine learning} dalam pemodelan termal satelit}
       \begin{itemize}
-        \item Metode \textit{machine learning} digunakan untuk membuat model regresi linear persamaan termal satelit LAPAN-A3
+        \item Metode \textit{machine learning} digunakan untuk membuat model regresi linear persamaan laju perubahan suhu \textit{node} satelit LAPAN-A3
         \item Model \textit{machine learning} dilatih dengan data masukan parameter satelit dan data keluaran laju perubahan suhu \textit{node}
-        \item Algoritma \textit{machine learning} akan mencari koefisien suku-suku persamaan laju perubahan suhu \textit{node} yang dapat memetakan data masukan ke data keluaran
-        \item Model termal yang dihasilkan kemudian digunakan untuk memprediksi suhu \textit{node-node} satelit
+        \item Algoritma \textit{machine learning} akan mencari koefisien suku-suku persamaan laju perubahan suhu \textit{node} yang dapat memetakan data masukan ke data keluaran secara otomatis
+        \item Model termal yang dihasilkan akan digunakan untuk memprediksi suhu \textit{node-node} satelit pada set ujian
       \end{itemize}
     \end{block}
     \column{0.02\textwidth}
@@ -416,7 +416,6 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
             \item Mengukur akurasi model dalam memprediksi nilai data observasi
             \item Selalu bernilai positif
             \item Semakin rendah, semakin dekat hasil prediksi model dengan nilai data observasi
-            \item Bergantung pada skala dan jumlah dataset model
           \end{itemize}
         \end{enumerate}
     \end{block}
@@ -537,7 +536,6 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
         \item Dataset yang sudah disaring dibagi menjadi set latihan dan ujian dengan proporsi 0.7:0.3 untuk menghindari \textit{overfitting} dan \textit{underfitting}
         \item Set latihan digunakan untuk melatih model menghitung koefisien persamaan laju perubahan suhu \textit{node}
         \item Set ujian digunakan untuk menghasilkan prediksi suhu \textit{node} satelit
-        \item Dataset dipisah per tanggal observasi karena nilai variabel $\beta$ dalam variabel $c_{a}$ berubah setiap hari
       \end{itemize}
     \column{0.02\textwidth}
     \column{0.59\textwidth}
