@@ -396,7 +396,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
       \begin{itemize}
         \item Metode \textit{machine learning} digunakan untuk membuat model regresi linear persamaan laju perubahan suhu \textit{node} satelit LAPAN-A3
         \item Model \textit{machine learning} dilatih dengan data masukan parameter satelit dan data keluaran laju perubahan suhu \textit{node}
-        \item Algoritma \textit{machine learning} akan mencari koefisien suku-suku persamaan laju perubahan suhu \textit{node} yang dapat memetakan data masukan ke data keluaran secara otomatis
+        \item Algoritma \textit{machine learning} akan menghitung koefisien suku-suku persamaan laju perubahan suhu \textit{node}
         \item Model termal yang dihasilkan akan digunakan untuk memprediksi suhu \textit{node-node} satelit pada set ujian
       \end{itemize}
     \end{block}
@@ -416,6 +416,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
             \item Mengukur akurasi model dalam memprediksi nilai data observasi
             \item Selalu bernilai positif
             \item Semakin rendah, semakin dekat hasil prediksi model dengan nilai data observasi
+            \item Menunjukkan deviasi standar kesalahan prediksi model
           \end{itemize}
         \end{enumerate}
     \end{block}
@@ -454,7 +455,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 \end{frame}
 \begin{frame}
   \frametitle{Pengumpulan Data}
-  Data yang dikumpulkan berupa data telemetri aktual LAPAN-A3 dan data TLE. Data telemetri dikumpulkan dari data internal LAPAN dan data TLE dkumpulkan dari situs Celestrak.
+  Data yang dikumpulkan berupa data telemetri aktual LAPAN-A3 dari data internal LAPAN dan data TLE dari situs Celestrak\cite{kelso}.
   \begin{block}{\center Contoh data telemetri satelit LAPAN-A3}
       \begin{figure}
           \includegraphics[width=0.8\textwidth]{figure/telea3.png}
@@ -472,7 +473,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
   \begin{columns}[T]
     \column{0.49\textwidth}
     \begin{block}{\center 1. Persiapan dataset dasar}
-      Mengubah data mentah yang sudah dikumpulkan (data telemetri dan TLE) menjadi bentuk dan satuan yang dibutuhkan :
+      Mengubah data telemetri satelit LAPAN-A3 menjadi bentuk dan satuan yang dibutuhkan :
       \begin{itemize}
         \item Suhu \textit{node} satelit dalam satuan K
         \item Arus sensor Matahari dalam satuan A
@@ -642,7 +643,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
   \begin{itemize}
     \item Secara kualitatif, model termal dapat menangkap tren dan nilai perubahan suhu \textit{node-node} satelit
     \item Secara kuantitatif, 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} memiliki nilai RMSE lebih kecil dari 1 $^\circ$C
-    \item Artinya, model termal dapat memprediksi lebih dari 95\% tren perubahan suhu pada 5 \textit{node} dan memiliki rata-rata deviasi standar kesalahan prediksi suhu di bawah 1 $^\circ$C untuk 6 \textit{node}
+    \item Artinya, model termal dapat memprediksi lebih dari 95\% tren atau variasi perubahan suhu pada 5 \textit{node} dan memiliki deviasi standar kesalahan prediksi suhu di bawah 1 $^\circ$C untuk 6 \textit{node} pada kedua periode observasi
     \item Skor $R^2$ paling rendah dimiliki \textit{node} 3 dan disusul oleh \textit{node} 7
     \item Nilai RMSE maksimum dimiliki \textit{node} 4 dengan nilai 1 $^\circ$C
   \end{itemize}
