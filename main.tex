@@ -645,7 +645,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
     \column{0.49\textwidth}
     \begin{block}{\center Asumsi bentuk satelit}
       \begin{itemize}
-        \item Satelit diasumsikan berbentuk balok sehingga \textit{node-node} dianggap berbentuk plat persegi panjang dalam perhitungan \textit{view factor}
+        \item Satelit diasumsikan berbentuk balok sehingga \textit{node} satelit dianggap berbentuk plat persegi panjang dalam perhitungan \textit{view factor}
         \item Ada komponen satelit yang tidak berbentuk persegi panjang seperti antena dan kamera
       \end{itemize}
     \end{block}
@@ -657,10 +657,9 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 \begin{frame}
   \frametitle{Kesimpulan}
   \begin{itemize}
-    \item Langkah-langkah pemodelan termal semi-empiris satelit menggunakan metode \textit{machine learning} sudah dijelaskan
-    \item Algoritma pemodelan termal yang dapat memprediksi suhu sisi-sisi satelit LAPAN-A3 juga sudah berhasil diimplementasikan
-    \item Secara umum, model termal LAPAN-A3 dapat memprediksi tren dan nilai perubahan suhu sisi-sisi satelit
-    \item Untuk kedua periode observasi, prediksi 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} satelit menghasilkan nilai RMSE lebih kecil dari 1 $^\circ$C.
+    \item Metode \textit{machine learning} dapat digunakan untuk membuat model termal semi-empiris satelit
+    \item Model termal semi-empiris satelit tersebut berhasil diimplementasikan pada satelit LAPAN-A3
+    \item Untuk kedua periode observasi satelit LAPAN-A3, prediksi 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar daripada 0.95 dan 6 dari 7 \textit{node} satelit menghasilkan nilai RMSE di bawah 1 $^\circ$C
   \end{itemize}
 \end{frame}
 
