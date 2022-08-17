@@ -302,7 +302,6 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
   \end{columns}
 \end{frame}
 
-
 \begin{frame}
   \frametitle{Machine Learning}
   \begin{columns}[c]
@@ -312,7 +311,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
         \includegraphics[width=0.8\textwidth]{figure/mldiagram.jpg}
       \end{figure}
       \begin{enumerate}
-        \item Dataset masukan dibagi menjadi set latihan dan ujian
+        \item Dataset masukan dibagi menjadi set latihan dan ujian untuk menghindari \textit{overfitting} dan \textit{underfitting}
         \item Set latihan dijadikan data masukan algoritma \textit{machine learning}
         \item Algoritma \textit{machine learning} akan membuat hipotesis berupa model yang menjelaskan hubungan antar data masukan
         \item Hipotesis diterapkan pada set ujian
@@ -322,12 +321,20 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
     \column{0.02\textwidth}
     \column{0.49\textwidth}
     \begin{itemize}
-      \item Bidang yang mempelajari metode dan algoritma komputer yang dapat
+      \item Metode dan algoritma komputer yang dapat
         menggunakan data untuk meningkatkan performa dalam mengerjakan
         serangkaian tugas secara otomatis \cite{mitchell1997}
-      \item Algoritma \textit{machine learning} mampu mempelajari sendiri karakteristik permasalahan yang harus diselesaikan dari kumpulan data yang diberikan
-      \item Metode \textit{machine learning} umum digunakan pada permasalahan yang melibatkan data dalam jumlah banyak seperti pengelompokkan wajah manusia, pembuatan rekomendasi produk, dan analisis finansial modern
     \end{itemize}
+    \begin{block}{\center \normalsize Overfitting}
+      \small
+    Fenomena berkurangnya akurasi model dalam memprediksi dataset baru akibat
+    terlalu fokus dengan dataset masukan.
+    \end{block}
+    \begin{block}{\center \normalsize Underfitting}
+      \small
+      Ketidakmampuan model dalam menangkap tren atau fitur dataset masukan
+      sehingga tidak dapat memprediksi nilai data dengan tepat.
+    \end{block}
   \end{columns}
 \end{frame}
 
@@ -337,10 +344,9 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
     \column{0.49\textwidth}
     \begin{block}{\center Aplikasi \textit{machine learning} dalam pemodelan termal satelit}
       \begin{itemize}
-        \item Metode \textit{machine learning} digunakan untuk membuat model regresi linear persamaan laju perubahan suhu \textit{node} satelit LAPAN-A3
-        \item Model \textit{machine learning} dilatih dengan data masukan parameter satelit dan data keluaran laju perubahan suhu \textit{node}
-        \item Algoritma \textit{machine learning} akan menghitung koefisien suku-suku persamaan laju perubahan suhu \textit{node}
-        \item Model termal yang dihasilkan akan digunakan untuk memprediksi suhu \textit{node-node} satelit pada set ujian
+        \item Model regresi linear untuk menyelesaikan persamaan laju perubahan suhu \textit{node} satelit
+        \item Dataset latihan berupa parameter termal dan laju perubahan suhu \textit{node} satelit LAPAN-A3
+        \item Model akan memprediksi suhu \textit{node} satelit dataset ujian
       \end{itemize}
     \end{block}
     \column{0.02\textwidth}
@@ -351,14 +357,14 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
           \begin{itemize}
             \item Mengukur akurasi model dalam memprediksi tren data observasi
             \item Bernilai maksimum 1
-            \item Semakin tinggi, semakin dekat tren hasil prediksi model dengan data observasi
+            \item Semakin tinggi, semakin dekat tren prediksi model dengan data observasi
             \item Menunjukkan proporsi variasi nilai data observasi yang dapat diprediksi model
           \end{itemize}
         \item Nilai \textit{root mean squared error} (RMSE) \cite{zheng}
           \begin{itemize}
             \item Mengukur akurasi model dalam memprediksi nilai data observasi
             \item Selalu bernilai positif
-            \item Semakin rendah, semakin dekat hasil prediksi model dengan nilai data observasi
+            \item Semakin rendah, semakin dekat nilai prediksi model dengan data observasi
             \item Menunjukkan deviasi standar kesalahan prediksi model
           \end{itemize}
         \end{enumerate}
@@ -464,7 +470,6 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
         \item[$\mu$] Rata-rata dataset
         \item[$\sigma$] Standar deviasi dataset
     \end{description}
-
   \end{columns}
 \end{frame}
 
@@ -473,9 +478,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
   \begin{columns}[T]
     \column{0.39\textwidth}
       \begin{itemize}
-        \item Dataset yang sudah disaring dibagi menjadi set latihan dan ujian dengan proporsi 0.7:0.3 untuk menghindari \textit{overfitting} dan \textit{underfitting}
-        \item Set latihan digunakan untuk melatih model menghitung koefisien persamaan laju perubahan suhu \textit{node}
-        \item Set ujian digunakan untuk menghasilkan prediksi suhu \textit{node} satelit
+        \item Dataset yang sudah disaring dibagi secara acak menjadi set latihan dan ujian dengan proporsi 0.7:0.3 
       \end{itemize}
     \column{0.02\textwidth}
     \column{0.59\textwidth}
@@ -493,16 +496,6 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
         \end{center}
       \end{table}
           \end{block}
-    \begin{block}{\center \normalsize Overfitting}
-      \small
-    Fenomena berkurangnya akurasi model dalam memprediksi dataset baru akibat
-    terlalu fokus dengan dataset masukan.
-    \end{block}
-    \begin{block}{\center \normalsize Underfitting}
-      \small
-      Ketidakmampuan model dalam menangkap tren atau fitur dataset masukan
-      sehingga tidak dapat memprediksi nilai data dengan tepat.
-    \end{block}
   \end{columns}
 \end{frame}
 
@@ -656,7 +649,7 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 
 \begin{frame}
   \frametitle{Terima kasih}
-  \large Sekian dari saya, terima kasih!
+  \large \center Sekian dari saya, terima kasih!
 \end{frame}
 
 
