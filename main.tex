@@ -72,9 +72,9 @@
     \column{0.5\textwidth}
     \begin{itemize}
         \item LAPAN-A3 adalah satelit hasil kerja sama antara Lembaga Penerbangan dan Antariksa Nasional (LAPAN) dengan Institut Pertanian Bogor (IPB) yang diluncurkan pada tahun 2016 dan memiliki misi utama observasi Bumi \cite{hasbi2013}
-      \item Dari observasi data telemetri, ditemukan bahwa sistem kendali termal satelit LAPAN-A3 tidak mampu menjaga suhu \textit{payload} utama \textit{multispectral imager} di atas 0 $^\circ$C sepanjang tahun \cite{ribah2019}
-      \item \textit{Multispectral imager} memiliki rentang suhu operasi 0 - 70 $^\circ$C sehingga misi pengambilan citra Bumi tidak bisa dilakukan jika suhu \textit{imager} di bawah 0 $^\circ$C
-      \item Operator LAPAN harus memberikan perintah maneuver khusus untuk menaikkan suhu \textit{multispectral imager}
+      \item Sistem kendali termal LAPAN-A3 tidak mampu menjaga suhu \textit{payload} utama \textit{multispectral imager} di atas 0 $^\circ$C sepanjang tahun \cite{ribah2019}
+      \item \textit{Multispectral imager} memiliki rentang suhu operasi 0 - 70 $^\circ$C
+      \item Diperlukan maneuver khusus untuk menaikkan suhu \textit{multispectral imager}
     \end{itemize}
   \end{columns}
 \end{frame}
@@ -82,7 +82,7 @@
 \begin{frame}
   \frametitle{Latar Belakang}
     \begin{itemize}
-      \item Dibutuhkan sebuah model termal satelit sederhana yang dapat memprediksi suhu sisi-sisi satelit agar permasalahan tidak terulang pada desain satelit LAPAN selanjutnya
+      \item Agar permasalahan tidak terulang, dibutuhkan sebuah model termal satelit sederhana yang dapat memprediksi suhu sisi-sisi satelit
       \item Pemodelan termal satelit konvensional membutuhkan perhitungan numerik yang kompleks \cite{das} atau perangkat lunak komersial khusus \cite{boudjemai2015}
       \item Metode \textit{machine learning} sudah umum digunakan dalam analisis termal satelit karena dapat mengurangi kompleksitas dan jumlah perhitungan dalam pemodelan termal satelit \cite{junior2017}\cite{escobar2016}\cite{xiong2020}
       \item Akan dibuat sebuah model termal semi-empiris \textit{node} banyak menggunakan metode regresi linear \textit{machine learning} yang dapat memprediksi perubahan suhu 7 \textit{node} satelit LAPAN-A3 (6 sisi satelit dan 1 plat tengah satelit)
