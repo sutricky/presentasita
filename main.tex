@@ -917,4 +917,34 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
   \end{columns}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Appendix J - Konversi Tata Acuan Koordinat Satelit}
+    Sebuah vektor posisi di \textit{satellite body-fixed frame} $\hat{r}_b$ dengan urutan rotasi Z-Y-X dapat dikonversi menjadi vektor posisi di \textit{Earth-centric inertial frame} $\hat{r}_i$ sesuai persamaan berikut :
+\begin{equation}
+\label{eq:convert}
+    \hat{r}_i = \begin{bmatrix}
+      \cos{\theta_r}\cos{\theta_p} & \cos{\theta_p}\sin{\theta_r} & -\sin{\theta_p}\\
+      \cos{\theta_r}\sin{\theta_p}\sin{\theta_y} - \cos{\theta_y}\sin{\theta_r} & \cos{\theta_r}\cos{\theta_y} + \sin{\theta_r}\sin{\theta_p}\sin{\theta_y} & \cos{\theta_p}\sin{\theta_y} \\
+      \sin{\theta_r}\sin{\theta_y} + \cos{\theta_r}\cos{\theta_y}\sin{\theta_p} & \cos{\theta_y}\sin{\theta_r}\sin{\theta_p} - \cos{\theta_r}\sin{\theta_y} & \cos{\theta_p}\cos{\theta_y}
+    \end{bmatrix} \hat{r}_b
+\end{equation}
+  \begin{columns}[T]
+    \column{0.49\textwidth}
+      \begin{figure}
+          \includegraphics[width=0.6\textwidth]{figure/referenceframe.png}
+            \caption{Ilustrasi tata acuan koordinat satelit yang mengorbit Bumi \cite{farissi2019}}
+      \end{figure}
+    \column{0.02\textwidth}
+    \column{0.49\textwidth}
+        \center Keterangan :
+    \begin{description}
+      \item[$\theta_r$] Sudut \textit{roll}
+      \item[$\theta_p$] Sudut \textit{pitch}
+      \item[$\theta_y$] Sudut \textit{yaw}
+      \item[$\hat{x}_i, \hat{y}_i, \hat{z}_i$] \textit{Earth-centric inertial frame}
+      \item[$\hat{x}_b, \hat{y}_b, \hat{z}_b$] \textit{Satellite body-fixed frame}
+    \end{description}
+  \end{columns}
+\end{frame}
+
 \end{document}
