@@ -117,14 +117,22 @@
 
 \begin{frame}
   \frametitle{Batasan Penelitian}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+            \begin{block}{\center Ilustrasi sumbu satelit LAPAN-A3}
+      \begin{figure}
+          \includegraphics[width=1.0\textwidth]{figure/a3axis2.png}
+      \end{figure}
+            \end{block}
+    \column{0.5\textwidth}
   \begin{enumerate}
     \item Pemodelan termal satelit LAPAN-A3 dilakukan untuk periode observasi 19 dan 20 Mei 2018
     \item Selama periode observasi, satelit dianggap tidak mengalami perubahan massa dan karakteristik termal
     \item Satelit LAPAN-A3 dianggap berbentuk balok dan dibagi menjadi 7
-	\textit{node} mewakili 6 sisi satelit dan plat tengah satelit dengan aturan
-		konversi sumbu menjadi nomor \textit{node} sebagai berikut : X+ = 1, X- =
-		2, Y+ = 3, Y- = 4, Z+ = 5, Z- = 6, serta plat tengah = 7
+	\textit{node} mewakili 6 sisi satelit dan plat tengah satelit
+    \item Aturan konversi sumbu menjadi nomor \textit{node} sebagai berikut : X+ = 1, X- = 2, Y+ = 3, Y- = 4, Z+ = 5, Z- = 6, serta plat tengah = 7
   \end{enumerate}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
@@ -153,17 +161,32 @@
 
 \begin{frame}
   \frametitle{Satelit LAPAN-A3}
-  \begin{columns}[T]
-    \column{0.4\textwidth}
+  \begin{columns}[c]
+    \column{0.6\textwidth}
       \begin{block}{\center Desain LAPAN-A3}
       \begin{figure}
           \includegraphics[width=0.9\textwidth]{figure/a3overview.jpg}
       \end{figure}
       \end{block}
-    \column{0.6\textwidth}
+    \column{0.4\textwidth}
       \begin{itemize}
         \item Satelit ketiga yang dikembangkan LAPAN setelah LAPAN-A1 dan LAPAN-A2
         \item Membawa 4 \textit{payload} : \textit{multispectral imager}, \textit{digital space camera}, \textit{automatic identification system}, dan \textit{experimental thermal imager} \cite{hartono2019}
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Satelit LAPAN-A3}
+  \begin{columns}[c]
+    \column{0.4\textwidth}
+      \begin{block}{\center Ilustrasi contoh orbit satelit LAPAN-A3}
+      \begin{figure}
+          \includegraphics[width=0.8\textwidth]{figure/orbitexample.png}
+      \end{figure}
+      \end{block}
+    \column{0.6\textwidth}
+      \begin{itemize}
         \item Memiliki orbit lingkaran \textit{sun-synchronous} dengan ketinggian 515 km dan inklinasi $97.5^\circ$
         \item Menggunakan 5 panel surya yang tersebar di 4 sisi satelit sebagai sumber energi
         \item Ke-enam sisi satelit dilengkapi sensor untuk mendeteksi arah sinar Matahari
@@ -573,13 +596,22 @@ F_a = \left( \frac{1 + \cos{\phi}}{2} \right)^2 \left[ 1 - \left( \frac{\phi}{\p
 \end{frame}
 \begin{frame}
   \frametitle{Hasil Pemodelan Termal Satelit LAPAN-A3}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \begin{block}{Ilustrasi letak \textit{node} 4}
+      \begin{figure}
+        \includegraphics[width=0.9\textwidth]{figure/node4.png}
+      \end{figure}
+      \end{block}
+    \column{0.5\textwidth}
   \begin{itemize}
-    \item Secara kualitatif, model termal dapat menangkap tren dan nilai perubahan suhu \textit{node-node} satelit
-    \item Secara kuantitatif, 5 dari 7 \textit{node} satelit menghasilkan skor $R^2$ lebih besar dari 0.95 dan 6 dari 7 \textit{node} memiliki nilai RMSE lebih kecil dari 1 $^\circ$C
-    \item Artinya, model termal dapat memprediksi lebih dari 95\% tren atau variasi perubahan suhu pada 5 \textit{node} dan memiliki deviasi standar kesalahan prediksi suhu di bawah 1 $^\circ$C untuk 6 \textit{node} pada kedua periode observasi
+    \item Model termal dapat menangkap tren dan nilai perubahan suhu \textit{node-node} satelit
+    \item Skor $R^2$ untuk 5 dari 7 \textit{node} satelit lebih besar dari 0.95 dan 6 dari 7 \textit{node} satelit memiliki nilai RMSE lebih kecil dari 1 $^\circ$C
+    \item Model termal dapat memprediksi lebih dari 95\% tren atau variasi perubahan suhu pada 5 \textit{node} dan memiliki deviasi standar kesalahan prediksi suhu di bawah 1 $^\circ$C untuk 6 \textit{node}
     \item Skor $R^2$ paling rendah dimiliki \textit{node} 3 dan disusul oleh \textit{node} 7
     \item Nilai RMSE maksimum dimiliki \textit{node} 4 dengan nilai 1 $^\circ$C
   \end{itemize}
+    \end{columns}
 \end{frame}
 
 \begin{frame}
